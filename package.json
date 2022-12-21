@@ -9,6 +9,10 @@
   "engines": {
     "vscode": "^1.70.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tenerate/tenerateVSCodeExtension.git"
+  },
   "categories": [
     "Other"
   ],

@@ -33,7 +33,7 @@ Answer: Yes, the code of the file in which you are generating tests leaves your 
 
 Question: How can I submit a suggestion for improvement or report an issue for the extension?
 
-Answer: https://forms.gle/xztL7twcqwdHKTQN7
+Answer: Through the github repository issues: https://github.com/tenerate/tenerateVSCodeExtension/issues
 
 ## Requirements
 
