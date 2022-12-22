@@ -197,8 +197,8 @@ async function generateAndAddTests(textEditor: PythonLanguageTextEditor , active
 		}
 		else {
 			textEditor.addResponseDataToFile(getResponse, activeDocument);
-			clearInterval(interval);
 			vscode.window.showInformationMessage("Test generation is now complete");
+			clearInterval(interval);
 		}}, REQUEST_TIMEOUT);
 };
 

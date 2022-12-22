@@ -59,6 +59,10 @@ If you find any other issues or have any feature suggestions, please share it in
 
 ## Release Notes
 
+### 1.0.6
+
+Added completion information message
+
 ### 1.0.5
 
 Updated extension to show extension messages as information boxes instead of comments at the end of the document.
