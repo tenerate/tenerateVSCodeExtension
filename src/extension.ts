@@ -181,7 +181,7 @@ async function generateAndAddTests(textEditor: PythonLanguageTextEditor , active
     	return data;
 	});
 
-	await textEditor.addResponseDataToFile(postResponse, activeDocument);
+	vscode.window.showInformationMessage(postResponse.response);
 
 	if (!postResponse || postResponse.state === 3) {
 		return;
@@ -192,14 +192,14 @@ async function generateAndAddTests(textEditor: PythonLanguageTextEditor , active
 			return data;
 		});
 
-		textEditor.addResponseDataToFile(getResponse, activeDocument);
-				
-		// Update state
-		if (!getResponse || getResponse.state !== 1) {
-			clearInterval(interval);
+		if (getResponse && getResponse.state === 1) {
+			vscode.window.showInformationMessage(postResponse.response);
 		}
-		
-		}, REQUEST_TIMEOUT);
+		else {
+			textEditor.addResponseDataToFile(getResponse, activeDocument);
+			clearInterval(interval);
+			vscode.window.showInformationMessage("Test generation is now complete");
+		}}, REQUEST_TIMEOUT);
 };
 
 //////////////////////////

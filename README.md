@@ -11,7 +11,7 @@ This extension utilizes OpenAI's Codex models to generate the tests.
 
 Please see below video demonstration on how to use extension.
 
-Demo Video Link: https://www.youtube.com/watch?v=4Rp4Mwm1jEQ
+Demo Video Link: https://www.youtube.com/watch?v=2NLKe7VInbM
 
 ## FAQ
 
@@ -55,9 +55,13 @@ For any questions or issues regarding using Tenerate, please reach out to: tener
 1. If we close the tab in which we are generating tests, the tests might be indented in an unexpected way. To avoid that, please do not close the tab in which you have started generating tests and do not edit the file name or file path.
 2. Double check the assertion statement values to confirm that the generated tests make sense. Since this extension relies on AI to generate the tests, it is possible that the AI generates tests with incorrect assertion statement values.
 
-If you find any other issues or have any feature suggestions, please share it in this link: https://forms.gle/xztL7twcqwdHKTQN7
+If you find any other issues or have any feature suggestions, please share it in the github issues link: https://github.com/tenerate/tenerateVSCodeExtension/issues
 
 ## Release Notes
+
+### 1.0.5
+
+Updated extension to show extension messages as information boxes instead of comments at the end of the document.
 
 ### 1.0.4
 

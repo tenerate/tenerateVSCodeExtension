@@ -3,4 +3,4 @@ dist
 .vscode-test/
 *.vsix
 Tenerate*.
-node-modules/
+node_modules/
