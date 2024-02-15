@@ -1,12 +1,14 @@
 # Tenerate README
 
-Tenerate is a Visual Studio Code Extension that allows developers to automatically generate tests for their software with a single click. Currently, the extension only supports python functions.
+Tenerate is a Visual Studio Code Extension that allows developers to automatically generate tests for their software with a single click. 
 
-This extension utilizes OpenAI's Codex models to generate the tests.
+Update: The extension now supports test generation for functions in all programming languages.
+
+This extension uses OpenAI models to generate tests.
 
 ## How to use
 
-1. Open a python file and hover over a function to generate tests
+1. Open a file with code and hover your mouse over the function definition of a function to generate tests
 3. Press Command + T (Mac) or Control + Alt + T (Windows)
 
 Please see below video demonstration on how to use extension.
@@ -14,10 +16,6 @@ Please see below video demonstration on how to use extension.
 Demo Video Link: https://www.youtube.com/watch?v=2NLKe7VInbM
 
 ## FAQ
-
-Question: Why does the extension only support python functions instead of functions for all languages?
-
-Answer: To maintain high quality for the generated tests, we perform extensive experimentation with and prompt engineering for each language. We have started with Python functions and plan to expand to functions of more languages.
 
 Question: Can I trust that the tests will be 100% correct?
 
@@ -37,7 +35,7 @@ Answer: Through the github repository issues: https://github.com/tenerate/tenera
 
 ## Requirements
 
-The extension only supports test generation for python functions at the moment.
+The extension supports test generation for functions of any programming language.
 
 ## Acknowledgements
 
@@ -58,6 +56,10 @@ For any questions or issues regarding using Tenerate, please reach out to: tener
 If you find any other issues or have any feature suggestions, please share it in the github issues link: https://github.com/tenerate/tenerateVSCodeExtension/issues
 
 ## Release Notes
+
+### 1.0.7
+
+Update extension to geneerate tests for all programming languages
 
 ### 1.0.6
 

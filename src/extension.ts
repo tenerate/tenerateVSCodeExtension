@@ -3,14 +3,15 @@
 ////////////////////
 import * as vscode from 'vscode';
 import * as crypto from 'crypto';
+const axios = require('axios');
 
 ////////////////////
 // CONSTANTS
 ////////////////////
 // Backend API Url
-const SERVER_URL: string = 'https://suntenna.herokuapp.com/generations';
+const SERVER_URL: string = 'https://tenerate-flask-endpoint.vercel.app/generate_tests';
 // Time out for requests
-const REQUEST_TIMEOUT: number = 15000;
+const REQUEST_TIMEOUT: number = 300000;
 
 ////////////////////
 // REQUEST UTILITIES
@@ -34,7 +35,7 @@ async function postRequest(documentUriHashId: string, dataString: string) {
 			},
 			timeout: REQUEST_TIMEOUT, // in ms
 	   };
-	   const req = https.request(`${SERVER_URL}/${documentUriHashId}`, options, (res) => {
+	   const req = https.request(SERVER_URL, options, (res) => {
 		 if (res.statusCode < 200 || res.statusCode >= 300) {
 			   return reject(new Error('statusCode=' + res.statusCode));
 		   }
@@ -169,37 +170,35 @@ async function fixTrailingSpaces(document: vscode.TextDocument): Promise<boolean
 * @param {PythonLanguageTextEditor} textEditor
 * @param {vscode.TextDocument} activeDocument
 */
-async function generateAndAddTests(textEditor: PythonLanguageTextEditor , activeDocument: vscode.TextDocument, line: vscode.TextLine) {
-	const documentText: string = activeDocument.getText();
-	const functionName = textEditor.getFunctionName(line.text);
-	const documentUriString = activeDocument.uri.toString();
-	const documentUriHashId = crypto.createHash('sha256').update(documentUriString).digest('hex');
+async function generateAndAddTests(textEditor, activeDocument, line) {
+    console.log('Starting generate tests...');
 
-  	const dataString = JSON.stringify({code: documentText, function_name: functionName});
+    console.log('Starting document text and function name retrieval...');
+    const documentText = activeDocument.getText();
+    // const functionName = textEditor.getFunctionName(line.text);
+    const dataString = JSON.stringify({ code: documentText, code_line: line.text });
 
-	const postResponse: any = await postRequest(documentUriHashId, dataString).then((data) => {
-    	return data;
-	});
+    console.log('Starting post request..');
+    try {
+		vscode.window.showInformationMessage("Test generation started! Please wait 15-30 seconds for the tests to appear at the end of the document.");
+        const postResponse = await axios.post(SERVER_URL, dataString, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const postResponseJson = postResponse.data;
 
-	vscode.window.showInformationMessage(postResponse.response);
+        if (!postResponseJson || postResponseJson['status'] !== 'success') {
+            vscode.window.showInformationMessage("Test generation failed! Please try again another time.");
+            return;
+        }
 
-	if (!postResponse || postResponse.state === 3) {
-		return;
-	}
-
-	const interval = setInterval(async function() {
-		const getResponse: any = await getRequest(documentUriHashId).then((data) => {
-			return data;
-		});
-
-		if (getResponse && getResponse.state === 1) {
-			vscode.window.showInformationMessage(postResponse.response);
-		}
-		else {
-			textEditor.addResponseDataToFile(getResponse, activeDocument);
-			vscode.window.showInformationMessage("Test generation is now complete");
-			clearInterval(interval);
-		}}, REQUEST_TIMEOUT);
+        textEditor.addResponseDataToFile(postResponseJson, activeDocument);
+        vscode.window.showInformationMessage("Test generation is now complete!");
+    } catch (error) {
+        console.error('Error during test generation:', error);
+		vscode.window.showInformationMessage("Test generation failed! Please try again another time.");
+    }
 };
 
 //////////////////////////
@@ -255,11 +254,11 @@ class PythonLanguageTextEditor extends LanguageTextEditor{
     }
 
     public async addResponseDataToFile(responseData: any, activeDocument: vscode.TextDocument) {
-        if (!responseData.response) {
+        if (!responseData.message) {
             await prettyAddTextAsNewLine(this.getErrorMessageText(), activeDocument);
         }
     
-        await prettyAddTextAsNewLine(responseData.response, activeDocument);
+        await prettyAddTextAsNewLine(responseData.message, activeDocument);
     }
 
     private getErrorMessageText(): string{
@@ -284,15 +283,9 @@ export function activate(context: vscode.ExtensionContext) {
 			let pythonTextEditor = new PythonLanguageTextEditor();
 			try {
 				// Invoke endpoint for test generation if line has function 
-				if (pythonTextEditor.isFileOfThisLanguage(fileSuffix) && pythonTextEditor.isLineFunction(line.text)) {
-					generateAndAddTests(pythonTextEditor, activeDocument, line);
-				}
+				generateAndAddTests(pythonTextEditor, activeDocument, line);
 			} catch(e) {
-				let commentCharacter = "";
-				
-				if (pythonTextEditor.isFileOfThisLanguage(fileSuffix)) {
-					commentCharacter = "#";
-				}
+				let commentCharacter = "#";
 	
 				await prettyAddTextAsNewLine(`${commentCharacter} An error occured with test generation. Please try again later.`, activeDocument);
 			}
