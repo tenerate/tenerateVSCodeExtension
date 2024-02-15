@@ -4,7 +4,7 @@ Automated test generation extension for functions in any programming language.
 
 ### 1.0.7 - 02/2024
 
-Update extension to geneerate tests for all programming languages
+Updated extension to geneerate tests for all programming languages
 
 ### 1.0.6 - 12/2022
 
