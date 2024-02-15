@@ -59,7 +59,7 @@ If you find any other issues or have any feature suggestions, please share it in
 
 ### 1.0.7
 
-Update extension to geneerate tests for all programming languages
+Updated extension to geneerate tests for all programming languages
 
 ### 1.0.6
 

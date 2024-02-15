@@ -3,7 +3,7 @@
   "displayName": "Tenerate",
   "icon": "images/resized_tenerate_logo.png",
   "description": "Automate the process of generating unit tests for your code. This extension now supports test generation for all programming languages.",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "publisher": "Tenerate",
   "type": "commonjs",
   "engines": {
